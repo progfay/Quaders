@@ -6,7 +6,7 @@
 //title
 bgscr 0, 700,500, 0, ginfo(20)/2-350,ginfo(21)/2-250
 picload "picture\\quaders.png"
-wait 150
+wait 1500
 gsel 0,-1
 
 // Žg—p‚·‚é‰æ‘œ‚ðbuffer‚É•\Ž¦
