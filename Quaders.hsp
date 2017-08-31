@@ -4,30 +4,22 @@
 #include "hspda.as"
 
 //title
-bgscr 0, 700,500, 0, ginfo(20)/2-350,ginfo(21)/2-250
+bgscr 0, 700,500, 0, ginfo(20)/2-350, ginfo(21)/2-250
 picload "picture\\quaders.png"
 wait 1500
-gsel 0,-1
+gsel 0, -1
 
 // 使用する画像をbufferに表示
-buffer 71
-picload "picture\\rect.png"
-buffer 72
-picload "picture\\select.png"
-buffer 73
-picload "picture\\lotate.png"
-buffer 74
-picload "picture\\rotate.png"
-buffer 75
-picload "picture\\normal.png"
-buffer 76
-picload "picture\\mouse_click.png"
-buffer 77
-picload "picture\\cam.png"
-buffer 78
-picload "picture\\shortcut.png"
+buffer 71 : picload "picture\\rect.png"
+buffer 72 : picload "picture\\select.png"
+buffer 73 : picload "picture\\lotate.png"
+buffer 74 : picload "picture\\rotate.png"
+buffer 75 : picload "picture\\normal.png"
+buffer 76 : picload "picture\\mouse_click.png"
+buffer 77 : picload "picture\\cam.png"
+buffer 78 : picload "picture\\shortcut.png"
 
-// 描画ウィンドウの生成
+// 描画ウィンドウの表示
 bgscr 1, ginfo(20)-500,ginfo(21)-200, 0, 0,0
 color 80,80,80
 boxf
@@ -59,20 +51,21 @@ dim buf_x,10,6
 dim buf_y,10,6
 dim n,10,6
 repeat 10
-i = cnt
-repeat 6
-n.i.cnt = 400
-loop
-loop
-dim flag,10,6
-repeat 10
-l = cnt
-repeat 6
-flag.l.cnt = 0
-loop
+	i = cnt
+	repeat 6
+		n.i.cnt = 400
+	loop
 loop
 
-// 選択用、保存用、塗りつぶし用配列変数、塗りつぶしのＲＧＢ
+dim flag,10,6
+repeat 10
+	l = cnt
+	repeat 6
+		flag.l.cnt = 0
+	loop
+loop
+
+// 選択用、保存用、塗りつぶし用配列変数、塗りつぶしRGB
 icon = (ginfo(21)-200) / 10
 dim num,10
 dim rmx,10
@@ -105,8 +98,8 @@ color 80,80,80
 boxf
 
 // 各キーの入力を代入
-getkey mc,1　　　 // Left Click
-getkey left,37　  // ←
+getkey mc,1       // Left Click
+getkey left,37    // ←
 getkey up,38      // ↑
 getkey right,39   // →
 getkey down,40    // ↓
@@ -128,57 +121,56 @@ getkey num.7,56   // 8
 getkey num.8,57   // 9
 getkey num.9,48   // 0
 getkey shift,16   // Shift
-getkey erase,8   // Back Space
+getkey erase,8    // Back Space
 getkey exit,27    // Esc
 getkey reverse,9  // Tab
 getkey ctrl,17    // Ctrl
 
 // Ctrl shortcut
 if ctrl == 1 {
-	
 	//select
 	repeat dn
 	if num.cnt == 1 : select = cnt
 	loop
-	if up == 1 & bup == 0{
+	if up == 1 & bup == 0 {
 		if select < 1 : select = dn-1 : else : select -= 1
 	}
-	if down == 1 & bdown == 0{
+	if down == 1 & bdown == 0 {
 		if select > dn-2 : select = 0 : else : select += 1
 	}
 	
 	// erase
-	if erase == 1 & be == 0{
+	if erase == 1 & be == 0 {
 		if dn == 0 : goto *draw
-		if dn != select{
+		if dn != select {
 			repeat abs(dn-select-1)
-			rmx.(select+cnt) = rmx.(select+cnt+1)
-			rmy.(select+cnt) = rmy.(select+cnt+1)
-			rmz.(select+cnt) = rmz.(select+cnt+1)
-			rx.(select+cnt) = rx.(select+cnt+1)
-			ry.(select+cnt) = ry.(select+cnt+1)
-			rz.(select+cnt) = rz.(select+cnt+1)
-			gx.(select+cnt) = gx.(select+cnt+1)
-			gy.(select+cnt) = gy.(select+cnt+1)
-			gz.(select+cnt) = gz.(select+cnt+1)
-			cr.(select+cnt) = cr.(select+cnt+1)
-			cg.(select+cnt) = cg.(select+cnt+1)
-			cb.(select+cnt) = cb.(select+cnt+1)
+				rmx.(select+cnt) = rmx.(select+cnt+1)
+				rmy.(select+cnt) = rmy.(select+cnt+1)
+				rmz.(select+cnt) = rmz.(select+cnt+1)
+				rx.(select+cnt)  =  rx.(select+cnt+1)
+				ry.(select+cnt)  =  ry.(select+cnt+1)
+				rz.(select+cnt)  =  rz.(select+cnt+1)
+				gx.(select+cnt)  =  gx.(select+cnt+1)
+				gy.(select+cnt)  =  gy.(select+cnt+1)
+				gz.(select+cnt)  =  gz.(select+cnt+1)
+				cr.(select+cnt)  =  cr.(select+cnt+1)
+				cg.(select+cnt)  =  cg.(select+cnt+1)
+				cb.(select+cnt)  =  cb.(select+cnt+1)
 			loop
 		}
 		dn -= 1
 		rmx.dn = double(0)
 		rmy.dn = double(0)
 		rmz.dn = double(0)
-		rx.dn = double(0)
-		ry.dn = double(0)
-		rz.dn = double(0)
-		gx.dn = double(0)
-		gy.dn = double(0)
-		gz.dn = double(0)
+		rx.dn  = double(0)
+		ry.dn  = double(0)
+		rz.dn  = double(0)
+		gx.dn  = double(0)
+		gy.dn  = double(0)
+		gz.dn  = double(0)
 		repeat 6
-		n.dn.cnt = 400
-		flag.dn.select = 0
+			n.dn.cnt = 400
+			flag.dn.select = 0
 		loop
 		if dn == select : select -= 1
 		be = erase
@@ -186,53 +178,53 @@ if ctrl == 1 {
 	}
 	
 	// 取り消し
-	if undo == 1 & bdo == 0{
-		if dn > 0{
+	if undo == 1 & bdo == 0 {
+		if dn > 0 {
 			dn -= 1
 			select = dn - 1
 		}
 		rmx.dn = double(0)
 		rmy.dn = double(0)
 		rmz.dn = double(0)
-		rx.dn = double(0)
-		ry.dn = double(0)
-		rz.dn = double(0)
+		rx.dn  = double(0)
+		ry.dn  = double(0)
+		rz.dn  = double(0)
 		repeat 6
-		n.dn.cnt = 400
-		flag.dn.cnt = 0
+			n.dn.cnt = 400
+			flag.dn.cnt = 0
 		loop
 		bdo = undo
 		continue
 	}
 	
 	// detail
-	if dn != 0{
-		if detail == 1{
+	if dn != 0 {
+		if detail == 1 {
 			rrr = cr.select
 			ggg = cg.select
 			bbb = cb.select
 			omx = double(rmx.select)
 			omy = double(rmy.select)
 			omz = double(rmz.select)
-			ox = double(rx.select)
-			oy = double(ry.select)
-			oz = double(rz.select)
-			bgscr 4,1000,600,0,ginfo(20)/2-500,ginfo(21)/2-330
+			ox  = double( rx.select)
+			oy  = double( ry.select)
+			oz  = double( rz.select)
+			bgscr 4, 1000, 600, 0, ginfo(20)/2-500, ginfo(21)/2-330
 			
-			//　ボタンの設置
+			// ボタンの設置
 			gsel 4,1
 			font "HGSゴシックM",10
 			objmode 2,0
 			objsize 20,20
 			pos 325,58
-			button "↑",*pxu
-			button "↓",*pxd
+			button "↑", *pxu
+			button "↓", *pxd
 			pos 325,98
-			button "↑",*pyu
-			button "↓",*pyd
+			button "↑", *pyu
+			button "↓", *pyd
 			pos 325,138
-			button "↑",*pzu
-			button "↓",*pzd
+			button "↑", *pzu
+			button "↓", *pzd
 			font "HGSゴシックM",12
 			objmode 2,0
 			objsize 80,30
@@ -253,42 +245,42 @@ if ctrl == 1 {
 			objmode 2,0
 			objsize 30,18
 			pos 325,255
-			button "+1",*sxu1
-			button "-1",*sxd1
+			button "+1", *sxu1
+			button "-1", *sxd1
 			pos 325,295
-			button "+1",*syu1
-			button "-1",*syd1
+			button "+1", *syu1
+			button "-1", *syd1
 			pos 325,335
-			button "+1",*szu1
-			button "-1",*szd1
+			button "+1", *szu1
+			button "-1", *szd1
 			pos 370,255
-			button "+10",*sxu10
-			button "-10",*sxd10
+			button "+10", *sxu10
+			button "-10", *sxd10
 			pos 370,295
-			button "+10",*syu10
-			button "-10",*syd10
+			button "+10", *syu10
+			button "-10", *syd10
 			pos 370,335
-			button "+10",*szu10
-			button "-10",*szd10
+			button "+10", *szu10
+			button "-10", *szd10
 			pos 415,255
-			button "+100",*sxu100
-			button "-100",*sxd100
+			button "+100", *sxu100
+			button "-100", *sxd100
 			pos 415,295
-			button "+100",*syu100
-			button "-100",*syd100
+			button "+100", *syu100
+			button "-100", *syd100
 			pos 415,335
-			button "+100",*szu100
-			button "-100",*szd100
+			button "+100", *szu100
+			button "-100", *szd100
 			font "HGSゴシックM",16
 			objmode 2,0
 			objsize 50,30
 			pos 10,400
-			button goto "1",*tex1
-			button goto "2",*tex2
-			button goto "3",*tex3
-			button goto "4",*tex4
-			button goto "5",*tex5
-			button goto "6",*tex6
+			button goto "1", *tex1
+			button goto "2", *tex2
+			button goto "3", *tex3
+			button goto "4", *tex4
+			button goto "5", *tex5
+			button goto "6", *tex6
 			objsize 70,30
 			pos 520,400
 			button goto "Delete", *del1
@@ -320,7 +312,6 @@ if ctrl == 1 {
 			button goto "", *rotate6
 			
 			*main
-	
 			gsel 4,2
 			redraw 0
 			gmx = double(omx+ox/2)
@@ -333,12 +324,12 @@ if ctrl == 1 {
 			line 10,215,590,215
 			line 10,385,590,385
 			line 360,10,360,205
-			
+		
 			// 座標と辺の長さを表示
 			color 0,0,0
 			font "HGSゴシックM",37,1
 			pos 10,10
-			mes "center"
+				mes "center"
 			pos 138,10
 			mes "of"
 			pos 186,10
@@ -1484,27 +1475,27 @@ stop
 	if n.select.5 \ 2 == 1 : grotate (select*6+10),0,0,deg2rad(90*n.select.5),cy,cz
 	goto *st
 *del1
-	// １の面に貼ったtextureをdelete
+	// 1の面に貼ったtextureをdelete
 	flag.select.0 = 0
 	goto *main
 *del2
-	// ２の面に貼ったtextureをdelete
+	// 2の面に貼ったtextureをdelete
 	flag.select.1 = 0
 	goto *main
 *del3
-	// ３の面に貼ったtextureをdelete
+	// 3の面に貼ったtextureをdelete
 	flag.select.2 = 0
 	goto *main
 *del4
-	// ４の面に貼ったtextureをdelete
+	// 4の面に貼ったtextureをdelete
 	flag.select.3 = 0
 	goto *main
 *del5
-	// ５の面に貼ったtextureをdelete
+	// 5の面に貼ったtextureをdelete
 	flag.select.4 = 0
 	goto *main
 *del6
-	// ６の面に貼ったtextureをdelete
+	// 6の面に貼ったtextureをdelete
 	flag.select.5 = 0
 	goto *main
 *escape
@@ -1530,7 +1521,7 @@ stop
 	gsel 4,-1
 	goto *init
 *on_platform
-	//　xy平面上に移動
+	// xy平面上に移動
 	omz = double(0)
 	goto *main
 *center
