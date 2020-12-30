@@ -1,8 +1,6 @@
 # Quaders
 
-<video src="Quaders.mp4" style="max-width: 100%; height: auto;" autoplay loop muted>
-                            <p>ブラウザは動画再生に対応していません。</p>
-                    </video>
+![gif](Quaders.gif)
 
 本プログラムは、直方体のみ使用可能な3Dモデリングソフトです。直方体にテクスチャを貼り付けたり、stlファイルへの書き出しも可能です。
 
